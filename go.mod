@@ -21,6 +21,7 @@ require (
 	github.com/anacrolix/sync v0.0.0-20180808010631-44578de4e778 // indirect
 	github.com/anacrolix/tagflag v1.0.0 // indirect
 	github.com/anacrolix/utp v0.0.0-20180219060659-9e0e1d1d0572
+	github.com/apache/pulsar/pulsar-client-go v0.0.0-20190507044647-1f4a836a4648
 	github.com/asim/go-awsxray v0.0.0-20161209120537-0d8a60b6e205
 	github.com/asim/go-bson v0.0.0-20160318195205-84522947cabd
 	github.com/aws/aws-sdk-go v1.21.7
@@ -73,6 +74,7 @@ require (
 	github.com/juju/ratelimit v1.0.1
 	github.com/kevinburke/ssh_config v0.0.0-20190725054713-01f96b0aa0cd // indirect
 	github.com/lib/pq v1.2.0 // indirect
+	github.com/linkedin/goavro v2.1.0+incompatible // indirect
 	github.com/lucas-clemente/quic-go v0.11.2 // indirect
 	github.com/marten-seemann/qtls v0.3.2 // indirect
 	github.com/micro/cli v0.2.0
@@ -126,9 +128,9 @@ require (
 	golang.org/x/mobile v0.0.0-20190719004257-d2bd2a29d028 // indirect
 	golang.org/x/net v0.0.0-20190724013045-ca1201d0de80
 	golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45
+	golang.org/x/sys v0.0.0-20190804053845-51ab0e2deafa // indirect
 	golang.org/x/text v0.3.2
-	golang.org/x/tools v0.0.0-20190729092621-ff9f1409240a // indirect
-	golang.org/x/xerrors v0.0.0-20190717185122-a985d3407aa7 // indirect
+	golang.org/x/tools v0.0.0-20190808195139-e713427fea3f // indirect
 	google.golang.org/api v0.7.0
 	google.golang.org/genproto v0.0.0-20190716160619-c506a9f90610
 	google.golang.org/grpc v1.22.1
@@ -140,6 +142,7 @@ require (
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/jcmturner/gokrb5.v7 v7.3.0 // indirect
 	gopkg.in/ldap.v3 v3.0.3
+	gopkg.in/linkedin/goavro.v1 v1.0.5 // indirect
 	gopkg.in/redis.v3 v3.6.4
 	gopkg.in/src-d/go-billy.v4 v4.3.2 // indirect
 	honnef.co/go/tools v0.0.1-2019.2.2 // indirect
