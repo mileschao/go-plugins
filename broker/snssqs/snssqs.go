@@ -201,11 +201,17 @@ func (b *awsServices) Connect() error {
 
 	b.sess = session.Must(session.NewSessionWithOptions(session.Options{
 		SharedConfigState: session.SharedConfigEnable,
+		Config:            aws.Config{},
 	}))
 
-	b.svcSqs = sqs.New(b.sess)
-	b.svcSns = sns.New(b.sess)
-	svcSts := sts.New(b.sess)
+	sqsConfig := b.getSQSConfig()
+	b.svcSqs = sqs.New(b.sess, sqsConfig)
+
+	snsConfig := b.getSNSConfig()
+	b.svcSns = sns.New(b.sess, snsConfig)
+
+	stsConfig := b.getSTSConfig()
+	svcSts := sts.New(b.sess, stsConfig)
 
 	input := &sts.GetCallerIdentityInput{}
 
@@ -398,6 +404,30 @@ func (b *awsServices) getAwsClient() *session.Session {
 	if raw != nil {
 		s := raw.(*session.Session)
 		return s
+	}
+	return nil
+}
+
+func (b *awsServices) getSNSConfig() *aws.Config {
+	raw := b.options.Context.Value(snsConfigKey{})
+	if raw != nil {
+		return raw.(*aws.Config)
+	}
+	return nil
+}
+
+func (b *awsServices) getSQSConfig() *aws.Config {
+	raw := b.options.Context.Value(sqsConfigKey{})
+	if raw != nil {
+		return raw.(*aws.Config)
+	}
+	return nil
+}
+
+func (b *awsServices) getSTSConfig() *aws.Config {
+	raw := b.options.Context.Value(stsConfigKey{})
+	if raw != nil {
+		return raw.(*aws.Config)
 	}
 	return nil
 }

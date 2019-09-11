@@ -1,10 +1,14 @@
 package snssqs
 
 import (
+	"github.com/aws/aws-sdk-go/aws"
 	"github.com/micro/go-micro/broker"
 )
 
 type maxMessagesKey struct{}
+type sqsConfigKey struct{}
+type snsConfigKey struct{}
+type stsConfigKey struct{}
 
 // MaxReceiveMessages indicates how many messages a receive operation should pull
 // during any single call
@@ -34,4 +38,18 @@ type validateOnPublishKey struct{}
 // This has a significant performance impact
 func ValidateOnPublish(validate bool) broker.PublishOption {
 	return setPublishOption(validateOnPublishKey{}, validate)
+}
+
+// SNSConfig add AWS config options to the sns client
+func SNSConfig(c *aws.Config) broker.Option {
+	return setBrokerOption(snsConfigKey{}, c)
+}
+
+// SQSConfig add AWS config options to the sqs client
+func SQSConfig(c *aws.Config) broker.Option {
+	return setBrokerOption(sqsConfigKey{}, c)
+}
+
+func STSConfig(c *aws.Config) broker.Option {
+	return setBrokerOption(stsConfigKey{}, c)
 }
