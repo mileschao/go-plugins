@@ -2,6 +2,7 @@ package pulsar
 
 import (
 	"errors"
+	"fmt"
 	mbroker "github.com/micro/go-micro/broker"
 	"testing"
 	"time"
@@ -25,36 +26,35 @@ func TestPulsarPubSub(t *testing.T) {
 			return errors.New("sub topic")
 		}
 		msg := event.Message()
-		v, ok := msg.Header["key"]
+		_, ok := msg.Header["key"]
 		if !ok {
 			t.Errorf("sub message error: %+v", msg)
-			return errors.New("sub message")
-		}
-		if string(v) != "value" {
-			t.Errorf("sub message error: %+v", msg)
-			return errors.New("sub message")
+			return fmt.Errorf("sub message: %+v", msg)
 		}
 		if string(msg.Body) != string(`{"body":"payload"}`) {
 			t.Errorf("sub message error: %+v", msg)
-			return errors.New("sub message")
+			return fmt.Errorf("sub message: %+v", msg)
 		}
 		if err := event.Ack(); err != nil {
 			t.Errorf("sub ack error: %+v", msg)
-			return errors.New("sub ack")
+			return fmt.Errorf("sub message: %+v", msg)
 		}
+		t.Logf("sub msg: %+v", msg)
 		return nil
-	})
+	}, mbroker.Queue("test-subname"))
 	if err != nil {
 		t.Errorf("subscribe error: %s", err)
 	}
 	for i := 0; i < 2; i++ {
 		select {
 		case <-time.After(time.Second * 3):
-			if err := broker.Publish("test-topic", &mbroker.Message{
-				Header: map[string]string{"key": "value"},
-				Body:   []byte(`{"body":"payload"}`),
-			}); err != nil {
-				t.Errorf("publish error: %s", err)
+			for j := 0; j < 3; j++ {
+				if err := broker.Publish("test-topic", &mbroker.Message{
+					Header: map[string]string{"key": fmt.Sprintf("i: %d, j: %d", i, j)},
+					Body:   []byte(`{"body":"payload"}`),
+				}); err != nil {
+					t.Errorf("publish error: %s", err)
+				}
 			}
 		}
 	}

@@ -138,6 +138,7 @@ func (k *kBroker) Publish(topic string, msg *broker.Message, opts ...broker.Publ
 		if options.Context != nil {
 			if v, ok := options.Context.Value(publishContextKey{}).(pulsar.ProducerOptions); ok {
 				producerOpts.Name = v.Name
+				producerOpts.Properties = v.Properties
 			}
 		}
 
@@ -170,10 +171,9 @@ func (k *kBroker) Subscribe(topic string, handler broker.Handler, opts ...broker
 		MessageChannel:   msgChannel,
 	}
 	if opt.Context != nil {
-		if _, ok := opt.Context.Value(subscribeContextKey{}).(pulsar.ConsumerOptions); ok {
-			//consumerOpts.Name = v.Name
-			//consumerOpts.SubscriptionName = v.SubscriptionName
-			//consumerOpts.Type = v.Type
+		if v, ok := opt.Context.Value(subscribeContextKey{}).(pulsar.ConsumerOptions); ok {
+			consumerOpts.Name = v.Name
+			consumerOpts.Type = v.Type
 		}
 	}
 	c, err := k.c.Subscribe(consumerOpts)
